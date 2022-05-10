@@ -6,21 +6,22 @@ import java.util.List;
 
 public class CompositeProduct extends MenuItem implements Serializable {
     private List<BaseProduct> compositeProduct;
-    private double rating;
-    private int calories;
-    private int protein;
-    private int fat;
-    private int sodium;
-    private int price;
+
+    private boolean customPrice;
 
     public CompositeProduct(String title) {
         super(title);
         compositeProduct = new ArrayList<>();
     }
 
+    public CompositeProduct() {
+        this("");
+    }
+
     @Override
     public int computePrice() {
-        price = compositeProduct.stream().mapToInt(BaseProduct::computePrice).sum();
+        if(!customPrice)
+            price = compositeProduct.stream().mapToInt(BaseProduct::computePrice).sum();
         return price;
     }
 
@@ -63,16 +64,24 @@ public class CompositeProduct extends MenuItem implements Serializable {
         this.price = price;
     }
 
+    public void setCustomPrice(boolean customPrice) {
+        this.customPrice = customPrice;
+    }
+
+    public boolean isCustomPrice() {
+        return customPrice;
+    }
+
     public List<BaseProduct> getCompositeProduct() {
         return compositeProduct;
     }
 
     @Override
     public String toString() {
-        String string = super.toString();
+        String string = "<html><font face=\"sansserif\" color=\"black\">" + super.toString() + "<br>";
         for(BaseProduct baseProduct : compositeProduct) {
-            string += baseProduct.getTitle() + ", ";
+            string += baseProduct.getTitle() + ",<br>";
         }
-        return string.substring(0, string.length() - 2) + ".";
+        return string + "</font></html>";
     }
 }

@@ -2,7 +2,6 @@ package app.dao;
 
 import app.bll.model.User;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ public class LoginSerializator extends Serializator {
 
     public LoginSerializator() {
         users = new ArrayList<>();
-        User admin = new User(0, "madalin", "123", "administrator");
+        User admin = new User(0, "admin", "123", "administrator");
         User employee1 = new User(1, "radu", "qwerty", "employee");
         User employee2 = new User(2, "ionut", "1", "employee");
         User employee3 = new User(3, "mircea", "321", "employee");
