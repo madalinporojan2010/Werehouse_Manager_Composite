@@ -7,7 +7,7 @@ public class Client {
     private JPanel panel1;
     private JTable productsTable;
     private JButton searchButton;
-    private JButton orderButton;
+    private JButton placeOrderButton;
     private JFrame frame;
 
     public JPanel getPanel1() {
@@ -23,7 +23,7 @@ public class Client {
     }
 
     public JButton getOrderButton() {
-        return orderButton;
+        return placeOrderButton;
     }
 
     public JFrame getFrame() {

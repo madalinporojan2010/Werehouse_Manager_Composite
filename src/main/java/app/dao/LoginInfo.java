@@ -4,6 +4,7 @@ import app.bll.model.User;
 
 public class LoginInfo {
     private static String rights = "client";
+    private int clientID = -1;
     private LoginSerializator loginSerializator;
 
     public LoginInfo(LoginSerializator loginSerializator) {
@@ -23,6 +24,7 @@ public class LoginInfo {
     }
 
     public boolean isPasswordGood(String username, String password) {
+        clientID = loginSerializator.getUsers().stream().filter(user -> user.getUsername().equals(username)).findFirst().get().getId();
         return loginSerializator.getUsers().stream().anyMatch(user -> user.getUsername().equals(username) && user.getPassword().equals(password));
     }
 
@@ -32,5 +34,9 @@ public class LoginInfo {
 
     public String getRights() {
         return rights;
+    }
+
+    public int getClientID() {
+        return clientID;
     }
 }

@@ -48,7 +48,7 @@ public class MainController implements Serializable {
         loginSerializator = new LoginSerializator();
         loginInfo = new LoginInfo(loginSerializator);
         productsDataSerializator = new ProductsDataSerializator();
-        deliveryService = new DeliveryService(productsDataSerializator);
+        deliveryService = new DeliveryService(loginInfo, productsDataSerializator);
         productsDataSerializator.deserialize();
         loginSerializator.deserialize();
         setAuthenticatorProprieties();
@@ -99,7 +99,7 @@ public class MainController implements Serializable {
                     switch (loginInfo.getRights()) {
                         case "client" -> {
                             JOptionPane.showMessageDialog(null, "Logged in successfully!", "INFO", JOptionPane.INFORMATION_MESSAGE);
-                            ClientController clientController = new ClientController(this, productsTableModel);
+                            ClientController clientController = new ClientController(this, productsTableModel, productsDataSerializator, deliveryService);
                             authenticator.getFrame().dispose();
                         }
                         case "administrator" -> {

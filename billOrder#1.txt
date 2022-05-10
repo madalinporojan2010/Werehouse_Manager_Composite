@@ -1,0 +1,13 @@
+Order ID....................................................................#1
+Client ID...................................................................#4
+Products Ordered.............................................................
+	"Opulent" Chicken
+	"Cocotte" of Vegetables
+	"Cannoli" Ice Cream Sandwiches
+	"Paella" Fried Rice
+	"Like a Caesar"
+	"Redeye" Braised Lamb Shanks and Beans
+	"La Brea Tar Pit" Chicken Wings
+	"Drunken" Pork Chops
+
+Total Price.................................................................525 EUR

@@ -1,0 +1,13 @@
+Order ID....................................................................#4
+Client ID...................................................................#4
+Products Ordered.............................................................
+	"Opulent" Chicken
+	"Candy Corn" Frozen Citrus Cream Pops
+	"Cocotte" of Vegetables
+	"Cannoli" Ice Cream Sandwiches
+	"Paella" Fried Rice
+	"Like a Caesar"
+	"La Brea Tar Pit" Chicken Wings
+	"Drunken" Pork Chops
+
+Total Price.................................................................679691 EUR

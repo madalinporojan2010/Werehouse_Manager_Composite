@@ -1,5 +1,8 @@
 package app.presentation.client;
 
+import app.bll.DeliveryService;
+import app.bll.model.MenuItem;
+import app.dao.ProductsDataSerializator;
 import app.presentation.controller.MainController;
 import app.presentation.controller.verifiers.NumberVerifier;
 import org.apache.commons.lang3.Range;
@@ -7,7 +10,9 @@ import org.apache.commons.lang3.Range;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
@@ -16,6 +21,8 @@ public class ClientController {
     private Client client;
     private SearchProductsUI searchProductsUI;
     private DefaultTableModel productsTableModel;
+    private ProductsDataSerializator productsDataSerializator;
+    private DeliveryService deliveryService;
 
     private DefaultTableModel searchResultsTableModel;
 
@@ -27,12 +34,14 @@ public class ClientController {
         this.productsTableModel = productsTableModel;
     }
 
-    public ClientController(MainController mainController, DefaultTableModel productsTableModel) {
+    public ClientController(MainController mainController, DefaultTableModel productsTableModel, ProductsDataSerializator productsDataSerializator, DeliveryService deliveryService) {
         this.mainController = mainController;
         this.productsTableModel = productsTableModel;
         client = new Client(productsTableModel);
         setClientUIProprieties();
         mainController.importData(client.getProductsTable());
+        this.productsDataSerializator = productsDataSerializator;
+        this.deliveryService = deliveryService;
     }
 
     private void setClientUIProprieties() {
@@ -58,7 +67,19 @@ public class ClientController {
             searchProductsUI = new SearchProductsUI();
             setSearchProductsUIProprieties();
         };
+        ActionListener placeOrderButtonListener = e -> {
+            Map<String, MenuItem> selectedProducts = new HashMap<>();
+            if (client.getProductsTable().getSelectedRow() != -1) {
+                for (int product : client.getProductsTable().getSelectedRows()) {
+                    selectedProducts.put(client.getProductsTable().getValueAt(product, 0).toString().toLowerCase(), productsDataSerializator.getProductsData().get(client.getProductsTable().getValueAt(product, 0).toString().toLowerCase()));
+                }
+                deliveryService.placeOrder(selectedProducts);
+            } else {
+                JOptionPane.showMessageDialog(null, "Select at least one product!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        };
         client.getSearchButton().addActionListener(searchButtonListener);
+        client.getOrderButton().addActionListener(placeOrderButtonListener);
     }
 
     private void setRangeSlidersActionListeners() {
@@ -94,6 +115,16 @@ public class ClientController {
         searchProductsUI.getPriceRangeSlider().addChangeListener(priceRangeSliderChangeListener);
     }
 
+    private void setSearchProductsActionListeners() {
+        setRangeSlidersActionListeners();
+        ActionListener searchExecuteListener = e -> {
+            importFoundData();
+            searchProductsUI.getFrame().dispose();
+            JOptionPane.showMessageDialog(null, "Searching...", "INFO", JOptionPane.INFORMATION_MESSAGE);
+        };
+        searchProductsUI.getSearchExecuteButton().addActionListener(searchExecuteListener);
+    }
+
     private boolean checkRanges(Vector row) {
         double rating = Double.parseDouble((String) row.elementAt(1));
         int calories = (int) row.elementAt(2);
@@ -111,13 +142,13 @@ public class ClientController {
             int maxValue = Integer.parseInt(range.getValue().getText());
             if (range.getKey().getName().contains("calories") && (calories < minValue || calories > maxValue))
                 return false;
-            else if(range.getKey().getName().contains("protein") && (protein < minValue || protein > maxValue)) {
+            else if (range.getKey().getName().contains("protein") && (protein < minValue || protein > maxValue)) {
                 return false;
-            }else if(range.getKey().getName().contains("fat") && (fat < minValue || fat > maxValue)) {
+            } else if (range.getKey().getName().contains("fat") && (fat < minValue || fat > maxValue)) {
                 return false;
-            }else if(range.getKey().getName().contains("sodium") && (sodium < minValue || sodium > maxValue)) {
+            } else if (range.getKey().getName().contains("sodium") && (sodium < minValue || sodium > maxValue)) {
                 return false;
-            }else if(range.getKey().getName().contains("price") && (price < minValue || price > maxValue)) {
+            } else if (range.getKey().getName().contains("price") && (price < minValue || price > maxValue)) {
                 return false;
             }
         }
@@ -137,13 +168,5 @@ public class ClientController {
         client.getProductsTable().setModel(searchResultsTableModel);
     }
 
-    private void setSearchProductsActionListeners() {
-        setRangeSlidersActionListeners();
-        ActionListener searchExecuteListener = e -> {
-            importFoundData();
-            searchProductsUI.getFrame().dispose();
-            JOptionPane.showMessageDialog(null, "Searching...", "INFO", JOptionPane.INFORMATION_MESSAGE);
-        };
-        searchProductsUI.getSearchExecuteButton().addActionListener(searchExecuteListener);
-    }
+
 }

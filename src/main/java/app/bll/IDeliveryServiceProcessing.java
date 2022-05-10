@@ -3,10 +3,9 @@ package app.bll;
 import app.bll.model.BaseProduct;
 import app.bll.model.CompositeProduct;
 import app.bll.model.MenuItem;
-import app.dao.LoginInfo;
-import app.dao.ProductsDataSerializator;
 
 import java.io.File;
+import java.util.Map;
 
 public interface IDeliveryServiceProcessing {
     void importBaseProductsDataFromCSV(File importFile);
@@ -15,5 +14,7 @@ public interface IDeliveryServiceProcessing {
     boolean removeProduct(String baseProduct);
     boolean modifyProduct(MenuItem baseProduct);
     boolean addCompositeProduct(CompositeProduct compositeProduct, int customPrice);
+
+    void placeOrder(Map<String, MenuItem> products);
 
 }
