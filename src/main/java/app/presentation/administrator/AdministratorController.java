@@ -27,6 +27,8 @@ public class AdministratorController {
 
     private ProductsDataSerializator productsDataSerializator;
 
+    private ReportUI reportUI;
+
     public Administrator getAdministrator() {
         return administrator;
     }
@@ -80,6 +82,7 @@ public class AdministratorController {
     private void setAdministratorProprieties() {
         mainController.setToolTipText(administrator.getProductsTable());
         setAdministratorActionListeners();
+        setReportActionListener();
     }
 
     private void adminImportData() {
@@ -168,6 +171,17 @@ public class AdministratorController {
         };
         composeProductUI.getCustomPriceCheckBox().addActionListener(customPriceCheckBoxListener);
         composeProductUI.getComposeButton().addActionListener(composeProductListener);
+    }
+
+    private void setReportActionListener() {
+        ActionListener reportActionListener = e -> {
+            reportUI = new ReportUI();
+            ActionListener closeReportActionListener = f -> {
+                reportUI.getFrame().dispose();
+            };
+            reportUI.getCloseButton().addActionListener(closeReportActionListener);
+        };
+        administrator.getViewReportButton().addActionListener(reportActionListener);
     }
 
     private void setModifyProductActionListeners() {

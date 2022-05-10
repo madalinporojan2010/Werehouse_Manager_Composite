@@ -1,18 +1,19 @@
 package app.presentation.client;
 
 import app.bll.DeliveryService;
+import app.bll.Order;
 import app.bll.model.MenuItem;
 import app.dao.ProductsDataSerializator;
+import app.presentation.Observer;
 import app.presentation.controller.MainController;
 import app.presentation.controller.verifiers.NumberVerifier;
-import org.apache.commons.lang3.Range;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -167,6 +168,5 @@ public class ClientController {
         });
         client.getProductsTable().setModel(searchResultsTableModel);
     }
-
 
 }

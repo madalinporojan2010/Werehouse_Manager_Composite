@@ -27,6 +27,54 @@ public class Administrator implements Serializable {
     private JComboBox dayOfWeekComboBox;
     private JButton viewReportButton;
 
+    public JPanel getReportsPanel() {
+        return reportsPanel;
+    }
+
+    public JRadioButton getTimeIntervalRadioButton() {
+        return timeIntervalRadioButton;
+    }
+
+    public JRadioButton getTheProductsRadioButton() {
+        return theProductsRadioButton;
+    }
+
+    public JRadioButton getTheClientsRadioButton() {
+        return theClientsRadioButton;
+    }
+
+    public JRadioButton getTheProductsOrderedRadioButton() {
+        return theProductsOrderedRadioButton;
+    }
+
+    public JTextField getStartHourTextField() {
+        return startHourTextField;
+    }
+
+    public JTextField getEndHourTextField() {
+        return endHourTextField;
+    }
+
+    public JTextField getProductsOrderedMoreThanTextField() {
+        return productsOrderedMoreThanTextField;
+    }
+
+    public JTextField getClientsOrderedMoreThanTextField() {
+        return clientsOrderedMoreThanTextField;
+    }
+
+    public JTextField getValueHigherTextField() {
+        return valueHigherTextField;
+    }
+
+    public JComboBox getDayOfWeekComboBox() {
+        return dayOfWeekComboBox;
+    }
+
+    public JButton getViewReportButton() {
+        return viewReportButton;
+    }
+
     public JButton getAddButton() {
         return addButton;
     }

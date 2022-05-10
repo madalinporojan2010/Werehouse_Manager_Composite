@@ -4,29 +4,34 @@ import app.bll.model.BaseProduct;
 import app.bll.model.CompositeProduct;
 import app.bll.model.MenuItem;
 import app.dao.LoginInfo;
-import app.dao.LoginSerializator;
 import app.dao.ProductsDataSerializator;
+import app.dao.Serializator;
+import app.presentation.Observer;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
 
-public class DeliveryService extends Observable implements IDeliveryServiceProcessing {
-    private static int orderID = 0;
+public class DeliveryService implements IDeliveryServiceProcessing, Serializable, Observable {
+    private List<app.presentation.Observer> observersList;
     private HashMap<Order, Map<String, MenuItem>> orders;
+    private Serializator orderSerializator;
 
     private final ProductsDataSerializator productsDataSerializator;
     private final LoginInfo loginInfo;
 
     public DeliveryService(LoginInfo loginInfo, ProductsDataSerializator productsDataSerializator) {
+        orderSerializator = new Serializator();
         this.productsDataSerializator = productsDataSerializator;
         this.loginInfo = loginInfo;
-        orders = new HashMap<>();
+        orders = (HashMap<Order, Map<String, MenuItem>>) orderSerializator.deserialize("orders.ser");
+        if (orders == null)
+            orders = new HashMap<>();
+
+        observersList = new ArrayList<>();
     }
 
 
@@ -96,15 +101,24 @@ public class DeliveryService extends Observable implements IDeliveryServiceProce
     @Override
     public void placeOrder(Map<String, MenuItem> products) {
         int totalPrice = 0;
+        int orderID = 0;
         for (Map.Entry<String, MenuItem> product : products.entrySet()) {
             totalPrice += product.getValue().computePrice();
         }
+        for (Map.Entry<Order, Map<String, MenuItem>> order : orders.entrySet()) {
+            if (orderID < order.getKey().getOrderID())
+                orderID = order.getKey().getOrderID();
+        }
+        orderID++;
+
 
         Order newOrder = new Order(orderID, loginInfo.getClientID());
-        orderID++;
+        notifyObservers(totalPrice, orderID, loginInfo.getClientID());
+
         orders.put(newOrder, products);
         JOptionPane.showMessageDialog(null, "Order with the id #" + orderID + " from the client with the id #" + loginInfo.getClientID() + " was placed successfully!\n" +
                 "Please check the BILL for further details!", "INFO", JOptionPane.INFORMATION_MESSAGE);
+        orderID++;
         File bill = new File("billOrder#" + orderID + ".txt");
         try {
             FileWriter fileWriter = new FileWriter(bill);
@@ -115,8 +129,13 @@ public class DeliveryService extends Observable implements IDeliveryServiceProce
             products.forEach((title, menuItem) -> {
                 if (menuItem instanceof BaseProduct) {
                     billData.append("\t" + menuItem.getTitle() + "\n");
-                } else
-                    billData.append("\t" + menuItem + "\n");
+                } else {
+                    CompositeProduct compositeProduct = (CompositeProduct) menuItem;
+                    billData.append("\t" + compositeProduct.getTitle() + " MADE FROM:" + "\n");
+                    compositeProduct.getCompositeProduct().forEach(product -> {
+                        billData.append("\t\t" + product.getTitle() + "\n");
+                    });
+                }
             });
             billData.append("\nTotal Price................................................................." + totalPrice + " EUR");
             fileWriter.write(billData.toString());
@@ -125,6 +144,25 @@ public class DeliveryService extends Observable implements IDeliveryServiceProce
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Bill with the order id #" + orderID + " was not created!", "INFO", JOptionPane.INFORMATION_MESSAGE);
         }
-
+        orderSerializator.serialize(orders, "orders.ser");
     }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observersList.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(Observer observer) {
+        observersList.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(int price, int orderID, int clientID) {
+
+        for (Observer observer : observersList) {
+            observer.update(price, orderID, clientID);
+        }
+    }
+
 }

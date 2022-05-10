@@ -1,12 +1,14 @@
 package app.bll;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Order {
+public class Order implements Serializable {
     private final int orderID;
     private final int clientID;
-    private final Date orderDate;
+    private Date orderDate;
 
     public Order(int orderID, int clientID) {
         this.orderID = orderID;
@@ -20,10 +22,6 @@ public class Order {
 
     public int getClientID() {
         return clientID;
-    }
-
-    public Date getOrderDate() {
-        return orderDate;
     }
 
     @Override

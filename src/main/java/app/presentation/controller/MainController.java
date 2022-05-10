@@ -1,11 +1,13 @@
 package app.presentation.controller;
 
 import app.bll.DeliveryService;
+import app.bll.Order;
 import app.bll.model.BaseProduct;
 import app.bll.model.CompositeProduct;
 import app.bll.model.MenuItem;
 import app.bll.model.User;
 import app.dao.*;
+import app.presentation.Observer;
 import app.presentation.administrator.*;
 import app.presentation.client.ClientController;
 import app.presentation.client.SearchProductsUI;
@@ -18,7 +20,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 public class MainController implements Serializable {
     private final static MainController controller = new MainController();
@@ -40,6 +45,9 @@ public class MainController implements Serializable {
         }
     };
 
+    private DefaultListModel observerListData;
+    private Serializator observerListDataSerializator;
+
     private static File importFile = new File("products.csv");
 
     private MainController() {
@@ -53,6 +61,12 @@ public class MainController implements Serializable {
         loginSerializator.deserialize();
         setAuthenticatorProprieties();
         importData(null);
+
+        observerListDataSerializator = new Serializator();
+
+        observerListData = (DefaultListModel) observerListDataSerializator.deserialize("obsListData.ser");
+        if (observerListData == null)
+            observerListData = new DefaultListModel();
     }
 
 
@@ -100,6 +114,13 @@ public class MainController implements Serializable {
                         case "client" -> {
                             JOptionPane.showMessageDialog(null, "Logged in successfully!", "INFO", JOptionPane.INFORMATION_MESSAGE);
                             ClientController clientController = new ClientController(this, productsTableModel, productsDataSerializator, deliveryService);
+                            EmployeeController employeeController = new EmployeeController(this);
+                            deliveryService.registerObserver((price, orderID, clientID) -> {
+                                observerListData.addElement("The order with ID #" + orderID + " from the client with ID #" + orderID + " costing " + price + " EUR was placed!");
+                                observerListDataSerializator.serialize(observerListData, "obsListData.ser");
+                                employeeController.getEmployee().getNotifyList().setModel(observerListData);
+                            });
+                            employeeController.getEmployee().getFrame().setVisible(false);
                             authenticator.getFrame().dispose();
                         }
                         case "administrator" -> {
@@ -110,7 +131,11 @@ public class MainController implements Serializable {
                         }
                         case "employee" -> {
                             JOptionPane.showMessageDialog(null, "Logged in successfully!", "INFO", JOptionPane.INFORMATION_MESSAGE);
-                            EmployeeController employeeController = new EmployeeController();
+                            EmployeeController employeeController = new EmployeeController(this);
+                            observerListDataSerializator.deserialize("obsListData.ser");
+                            employeeController.getEmployee().getNotifyList().setModel(observerListData);
+                            System.out.println(observerListData);
+                            employeeController.getEmployee().getFrame().setVisible(true);
                             authenticator.getFrame().dispose();
                         }
                     }
