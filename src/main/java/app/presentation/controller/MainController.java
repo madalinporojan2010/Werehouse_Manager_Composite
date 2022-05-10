@@ -81,7 +81,7 @@ public class MainController implements Serializable {
             if (authenticator.getShowPasswordCheckBox().isSelected()) {
                 authenticator.getPasswordTextField().setEchoChar((char) 0);
             } else {
-                authenticator.getPasswordTextField().setEchoChar('•');
+                authenticator.getPasswordTextField().setEchoChar('*');
             }
         };
         ActionListener registerActionListener = e -> {

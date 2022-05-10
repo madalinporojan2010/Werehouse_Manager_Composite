@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"app.bll"},{"l":"app.bll.model"},{"l":"app.dao"},{"l":"app.presentation"},{"l":"app.presentation.administrator"},{"l":"app.presentation.client"},{"l":"app.presentation.controller"},{"l":"app.presentation.controller.verifiers"},{"l":"app.presentation.employee"}];updateSearchResults();
