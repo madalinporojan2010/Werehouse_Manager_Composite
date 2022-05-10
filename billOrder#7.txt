@@ -1,0 +1,11 @@
+Order ID....................................................................#7
+Client ID...................................................................#5
+Products Ordered...............................................................
+	Income Tax Cocktail
+	French 75 Cocktail
+	Champagne Pineapple Cocktail
+	French 75 Cocktail II
+	Quick Seafood Cocktail Sauce
+	Pomegranate-Ginger Champagne Cocktail
+
+Total Price.................................................................409 EUR
