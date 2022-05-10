@@ -1,0 +1,9 @@
+Order ID....................................................................#6
+Client ID...................................................................#1
+Products Ordered...............................................................
+	Orange–Brown Butter Wet Nuts
+	Quinoa Brown Rice Sushi
+	Chocolate Wafer and Graham Cracker Brownies
+	Hot Sauce Brown Butter
+
+Total Price.................................................................240 EUR

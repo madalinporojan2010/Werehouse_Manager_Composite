@@ -4,6 +4,7 @@ import app.presentation.client.SearchProductsUI;
 
 import javax.swing.*;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class NumberVerifier extends InputVerifier {
     private SearchProductsUI searchProductsUI = null;

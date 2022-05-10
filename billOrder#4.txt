@@ -1,0 +1,13 @@
+Order ID....................................................................#4
+Client ID...................................................................#4
+Products Ordered...............................................................
+	"Candy Corn" Frozen Citrus Cream Pops
+	"Cocotte" of Vegetables
+	"Brown on Blonde" Blondies
+	"Cannoli" Ice Cream Sandwiches
+	"Like a Caesar"
+	"La Brea Tar Pit" Chicken Wings
+	"California Roll" Salad
+	"Drunken" Pork Chops
+
+Total Price.................................................................641 EUR

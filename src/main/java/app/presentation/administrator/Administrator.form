@@ -109,7 +109,8 @@
               <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Time interval"/>
+              <selected value="true"/>
+              <text value="Time interval of orders:"/>
             </properties>
           </component>
           <component id="8b8a" class="javax.swing.JRadioButton" binding="theProductsRadioButton" default-binding="true">
@@ -151,6 +152,7 @@
               </grid>
             </constraints>
             <properties>
+              <name value="Start hour"/>
               <text value=""/>
             </properties>
           </component>
@@ -160,7 +162,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <name value="End hour"/>
+            </properties>
           </component>
           <component id="d23e0" class="javax.swing.JLabel">
             <constraints>
@@ -177,6 +181,7 @@
               </grid>
             </constraints>
             <properties>
+              <name value="Products ordered more than"/>
               <text value=""/>
             </properties>
           </component>
@@ -186,7 +191,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <name value="Client ordered more than"/>
+            </properties>
           </component>
           <component id="26813" class="javax.swing.JLabel">
             <constraints>
@@ -210,7 +217,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <name value="Value higher than"/>
+            </properties>
           </component>
           <component id="5286f" class="javax.swing.JLabel">
             <constraints>

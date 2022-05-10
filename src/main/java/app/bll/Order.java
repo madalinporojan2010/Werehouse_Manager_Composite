@@ -16,6 +16,10 @@ public class Order implements Serializable {
         orderDate = Calendar.getInstance().getTime();
     }
 
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
     public int getOrderID() {
         return orderID;
     }

@@ -7,6 +7,7 @@ import app.dao.LoginInfo;
 import app.dao.ProductsDataSerializator;
 import app.dao.Serializator;
 import app.presentation.Observer;
+import app.presentation.administrator.ReportUI;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 
@@ -43,7 +44,8 @@ public class DeliveryService implements IDeliveryServiceProcessing, Serializable
             csvReader.readNext();
             List<BaseProduct> baseProducts = new ArrayList<>();
 
-            csvReader.readAll().stream().forEach(baseProductData -> baseProducts.add(new BaseProduct(baseProductData[0].stripLeading().stripTrailing(), Double.parseDouble(baseProductData[1]), Integer.parseInt(baseProductData[2]), Integer.parseInt(baseProductData[3]),
+            csvReader.readAll().stream().forEach(baseProductData ->
+                    baseProducts.add(new BaseProduct(baseProductData[0].stripLeading().stripTrailing(), Double.parseDouble(baseProductData[1]), Integer.parseInt(baseProductData[2]), Integer.parseInt(baseProductData[3]),
                     Integer.parseInt(baseProductData[4]), Integer.parseInt(baseProductData[5]), Integer.parseInt(baseProductData[6]))));
             productsDataSerializator.getProductsData().clear();
             baseProducts.stream().forEach(baseProduct -> productsDataSerializator.getProductsData().put(baseProduct.getTitle().toLowerCase().stripLeading().stripTrailing(), baseProduct));
@@ -165,4 +167,7 @@ public class DeliveryService implements IDeliveryServiceProcessing, Serializable
         }
     }
 
+    public HashMap<Order, Map<String, MenuItem>> getOrders() {
+        return orders;
+    }
 }

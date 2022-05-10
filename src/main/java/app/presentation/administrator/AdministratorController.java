@@ -83,6 +83,27 @@ public class AdministratorController {
         mainController.setToolTipText(administrator.getProductsTable());
         setAdministratorActionListeners();
         setReportActionListener();
+        setReportVerifiers();
+    }
+
+    private void setReportData() {
+        //reportUI.getReportTextArea().setText(deliveryService.getReportData());
+        StringBuilder reportString = new StringBuilder();
+        System.out.println(deliveryService.getOrders());
+        deliveryService.getOrders().forEach((order, menuItem) -> {
+            if (administrator.getTimeIntervalRadioButton().isSelected()) {
+                if(order.getOrderDate().getHours() >= Integer.parseInt(administrator.getStartHourTextField().getText()) && order.getOrderDate().getHours() <= Integer.parseInt(administrator.getEndHourTextField().getText())) {
+                    reportString.append("Order with ID #" + order.getOrderID() + " from client ID" + order.getClientID() + " at: " + order.getOrderDate() + "\n");
+                }
+            } else if (administrator.getTheProductsRadioButton().isSelected()) {
+
+            } else if (administrator.getTheClientsRadioButton().isSelected()) {
+
+            } else if (administrator.getTheProductsOrderedRadioButton().isSelected()) {
+
+            }
+        });
+        reportUI.getReportTextArea().setText(reportString.toString());
     }
 
     private void adminImportData() {
@@ -107,6 +128,13 @@ public class AdministratorController {
         setAddBaseProductActionListeners();
     }
 
+    private void setReportVerifiers() {
+        administrator.getStartHourTextField().setInputVerifier(new NumberVerifier());
+        administrator.getEndHourTextField().setInputVerifier(new NumberVerifier());
+        administrator.getClientsOrderedMoreThanTextField().setInputVerifier(new NumberVerifier());
+        administrator.getProductsOrderedMoreThanTextField().setInputVerifier(new NumberVerifier());
+        administrator.getValueHigherTextField().setInputVerifier(new NumberVerifier());
+    }
 
     private void setComposeProductVerifiers() {
         composeProductUI.getTitleTextField().setInputVerifier(new TextVerifier());
@@ -176,6 +204,7 @@ public class AdministratorController {
     private void setReportActionListener() {
         ActionListener reportActionListener = e -> {
             reportUI = new ReportUI();
+            setReportData();
             ActionListener closeReportActionListener = f -> {
                 reportUI.getFrame().dispose();
             };

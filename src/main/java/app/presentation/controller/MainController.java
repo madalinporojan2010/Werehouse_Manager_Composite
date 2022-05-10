@@ -121,7 +121,7 @@ public class MainController implements Serializable {
                                 employeeController.getEmployee().getNotifyList().setModel(observerListData);
                             });
                             employeeController.getEmployee().getFrame().setVisible(false);
-                            authenticator.getFrame().dispose();
+                            //authenticator.getFrame().dispose();
                         }
                         case "administrator" -> {
                             JOptionPane.showMessageDialog(null, "Logged in successfully!", "INFO", JOptionPane.INFORMATION_MESSAGE);
@@ -136,7 +136,7 @@ public class MainController implements Serializable {
                             employeeController.getEmployee().getNotifyList().setModel(observerListData);
                             System.out.println(observerListData);
                             employeeController.getEmployee().getFrame().setVisible(true);
-                            authenticator.getFrame().dispose();
+                            //authenticator.getFrame().dispose();
                         }
                     }
                 } else {
