@@ -24,6 +24,10 @@ public class ProductsDataSerializator extends Serializator {
         return null;
     }
 
+    public void setProductsData(Map<String, MenuItem> productsData) {
+        this.productsData = productsData;
+    }
+
     public Map<String, MenuItem> getProductsData() {
         return productsData;
     }

@@ -1,0 +1,10 @@
+Order ID....................................................................#8
+Client ID...................................................................#4
+Products Ordered...............................................................
+	Chicken Laap
+	Goat Cheese-Onion Naan with Mango Salsa
+	Orange-Scented Chocolate Almond Cake Kirkgaard
+	Micro-Quick Hot-Sweet Salad of Broccoli Raab and Carrots
+	Paad Thai Pailin
+
+Total Price.................................................................387 EUR

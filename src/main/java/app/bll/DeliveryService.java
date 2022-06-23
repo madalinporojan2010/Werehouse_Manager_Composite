@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DeliveryService implements IDeliveryServiceProcessing, Serializable, Observable {
     private List<app.presentation.Observer> observersList;
@@ -43,12 +44,16 @@ public class DeliveryService implements IDeliveryServiceProcessing, Serializable
             CSVReader csvReader = new CSVReader(inputFile);
             csvReader.readNext();
             List<BaseProduct> baseProducts = new ArrayList<>();
+//
+//            csvReader.readAll().stream().forEach(baseProductData ->
+//                    baseProducts.add(new BaseProduct(baseProductData[0].stripLeading().stripTrailing(), Double.parseDouble(baseProductData[1]), Integer.parseInt(baseProductData[2]), Integer.parseInt(baseProductData[3]),
+//                    Integer.parseInt(baseProductData[4]), Integer.parseInt(baseProductData[5]), Integer.parseInt(baseProductData[6]))));
 
-            csvReader.readAll().stream().forEach(baseProductData ->
-                    baseProducts.add(new BaseProduct(baseProductData[0].stripLeading().stripTrailing(), Double.parseDouble(baseProductData[1]), Integer.parseInt(baseProductData[2]), Integer.parseInt(baseProductData[3]),
-                    Integer.parseInt(baseProductData[4]), Integer.parseInt(baseProductData[5]), Integer.parseInt(baseProductData[6]))));
             productsDataSerializator.getProductsData().clear();
-            baseProducts.stream().forEach(baseProduct -> productsDataSerializator.getProductsData().put(baseProduct.getTitle().toLowerCase().stripLeading().stripTrailing(), baseProduct));
+            productsDataSerializator.setProductsData(csvReader.readAll().stream().map(strings -> new BaseProduct(strings[0].stripLeading().stripTrailing(), Double.parseDouble(strings[1]), Integer.parseInt(strings[2]), Integer.parseInt(strings[3]),
+                Integer.parseInt(strings[4]), Integer.parseInt(strings[5]), Integer.parseInt(strings[6]))).collect(Collectors.toMap(BaseProduct::getTitle, baseProduct -> baseProduct, (product1, product2) -> product1)));
+
+            //baseProducts.stream().forEach(baseProduct -> productsDataSerializator.getProductsData().put(baseProduct.getTitle().toLowerCase().stripLeading().stripTrailing(), baseProduct));
             productsDataSerializator.serialize();
         } catch (IOException | CsvException e) {
             e.printStackTrace();
